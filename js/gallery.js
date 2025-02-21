@@ -67,14 +67,14 @@ const images = [
 const gallery = document.querySelector('.gallery');
 const galleryMarkup = images
   .map(
-    ({ preview, description }) =>
+    ({ preview, original, description }) =>
       `
   <li class="gallery-item">
-  <a class="gallery-link" href="large-image.jpg">
+  <a class="gallery-link" href="${original}">
     <img
       class="gallery-image"
       src="${preview}"
-      data-source="large-image.jpg"
+      data-source="${original}"
       alt="${description}"
     />
   </a>
@@ -84,3 +84,18 @@ const galleryMarkup = images
   .join('');
 
 gallery.insertAdjacentHTML('afterbegin', galleryMarkup);
+gallery.addEventListener('click', handlerImageClick);
+
+function handlerImageClick(event) {
+  if (event.target === event.currentTarget) {
+    return;
+  }
+  const currentImage = event.target.closest('.gallery-item')
+  console.log(currentImage)
+  const instance = basicLightbox.create(`
+    <div class="modal">
+      <img src="" alt="">
+    </div>
+    `);
+  instance.show();
+}
